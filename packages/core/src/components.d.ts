@@ -1316,6 +1316,7 @@ declare global {
     export interface IonItemOptionAttributes extends HTMLAttributes {
       color?: string;
       disabled?: boolean;
+      expandable?: boolean;
       href?: string;
       mode?: 'ios' | 'md';
     }

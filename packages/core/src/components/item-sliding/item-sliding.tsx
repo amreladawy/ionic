@@ -41,11 +41,10 @@ export class ItemSliding {
   private optsWidthRightSide = 0;
   private optsWidthLeftSide = 0;
   private sides: ItemSide;
-  private tmr: any;
+  private tmr: number;
   private leftOptions: ItemOptions;
   private rightOptions: ItemOptions;
   private optsDirty = true;
-  private gestureOptions: any;
 
   @Element() private el: HTMLElement;
 
@@ -73,22 +72,6 @@ export class ItemSliding {
    *
    */
   @Event() ionDrag: EventEmitter;
-
-  constructor() {
-    this.gestureOptions = {
-      'canStart': this.canStart.bind(this),
-      'onStart': this.onDragStart.bind(this),
-      'onMove': this.onDragMove.bind(this),
-      'onEnd': this.onDragEnd.bind(this),
-      'gestureName': 'item-swipe',
-      'gesturePriority': -10,
-      'type': 'pan',
-      'direction': 'x',
-      'maxAngle': 20,
-      'threshold': 5,
-      'attachTo': 'parent'
-    };
-  }
 
   componentDidLoad() {
     this.item = this.el.querySelector('ion-item');
@@ -298,7 +281,7 @@ export class ItemSliding {
     }
 
     if (openAmount === 0) {
-      this.tmr = setTimeout(() => {
+      this.tmr = window.setTimeout(() => {
         this.state = SlidingState.Disabled;
         this.tmr = null;
       }, 600);
@@ -314,19 +297,31 @@ export class ItemSliding {
   hostData() {
     return {
       class: {
-        'item-wrapper': true,
-        'active-slide': (this.state !== SlidingState.Disabled),
-        'active-options-right': !!(this.state & SlidingState.Right),
-        'active-options-left': !!(this.state & SlidingState.Left),
-        'active-swipe-right': !!(this.state & SlidingState.SwipeRight),
-        'active-swipe-left': !!(this.state & SlidingState.SwipeLeft)
+        'item-sliding': true,
+        'item-sliding-active-slide': (this.state !== SlidingState.Disabled),
+        'item-sliding-active-options-right': !!(this.state & SlidingState.Right),
+        'item-sliding-active-options-left': !!(this.state & SlidingState.Left),
+        'item-sliding-active-swipe-right': !!(this.state & SlidingState.SwipeRight),
+        'item-sliding-active-swipe-left': !!(this.state & SlidingState.SwipeLeft)
       }
     };
   }
 
   render() {
     return (
-      <ion-gesture {...this.gestureOptions}>
+      <ion-gesture {...{
+        'canStart': this.canStart.bind(this),
+        'onStart': this.onDragStart.bind(this),
+        'onMove': this.onDragMove.bind(this),
+        'onEnd': this.onDragEnd.bind(this),
+        'gestureName': 'item-swipe',
+        'gesturePriority': -10,
+        'type': 'pan',
+        'direction': 'x',
+        'maxAngle': 20,
+        'threshold': 5,
+        'attachTo': 'parent'
+      }}>
         <slot></slot>
       </ion-gesture>
     );

@@ -27,15 +27,20 @@ export class ItemOption {
   @Prop() mode: 'ios' | 'md';
 
   /**
+   * If true, the user cannot interact with the item option. Defaults to `false`.
+   */
+  @Prop() disabled = false;
+
+  /**
+   * If true, the option will expand to take up the available width and cover any other options. Defaults to `false`.
+   */
+  @Prop() expandable = false;
+
+  /**
    * Contains a URL or a URL fragment that the hyperlink points to.
    * If this property is set, an anchor tag will be rendered.
    */
   @Prop() href: string;
-
-  /**
-   * If true, the user cannot interact with the item option. Defaults to `false`.
-   */
-  @Prop() disabled = false;
 
   notCaptured() {
     // if (!clickedOptionButton(ev)) {
@@ -48,6 +53,14 @@ export class ItemOption {
     return !!el;
   }
 
+  hostData() {
+    return {
+      class: {
+        'item-option-expandable': this.expandable
+      }
+    };
+  }
+
   render() {
     const TagType = this.href ? 'a' : 'button';
 
@@ -58,9 +71,9 @@ export class ItemOption {
         href={this.href}
         onClick={this.clickedOptionButton.bind(this)}>
         <span class='item-option-button-inner'>
-          <slot name='icon-only'></slot>
           <slot name='start'></slot>
           <slot name='top'></slot>
+          <slot name='icon-only'></slot>
           <slot></slot>
           <slot name='bottom'></slot>
           <slot name='end'></slot>
