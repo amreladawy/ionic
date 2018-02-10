@@ -312,7 +312,7 @@ declare global {
   }
   namespace JSXElements {
     export interface IonBackButtonAttributes extends HTMLAttributes {
-      
+      mode?: 'ios' | 'md';
     }
   }
 }
@@ -413,6 +413,7 @@ declare global {
       round?: boolean;
       size?: 'small' | 'default' | 'large';
       strong?: boolean;
+      type?: string;
     }
   }
 }
@@ -759,9 +760,6 @@ declare global {
   namespace JSXElements {
     export interface IonContentAttributes extends HTMLAttributes {
       fullscreen?: boolean;
-      ionScroll?: Function;
-      ionScrollEnd?: Function;
-      ionScrollStart?: Function;
     }
   }
 }
@@ -2531,10 +2529,10 @@ declare global {
   }
   namespace JSXElements {
     export interface IonScrollAttributes extends HTMLAttributes {
-      disabled?: boolean;
       onionScroll?: ScrollCallback;
       onionScrollEnd?: ScrollCallback;
       onionScrollStart?: ScrollCallback;
+      scrollEvents?: boolean;
     }
   }
 }
